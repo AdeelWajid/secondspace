@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.AssetManager
+import android.os.Build
 import com.nextvm.core.model.ApkInfo
 import org.xmlpull.v1.XmlPullParser
 import timber.log.Timber
@@ -101,7 +102,12 @@ class ApkParser @Inject constructor(
             packageName = packageInfo.packageName,
             appName = appInfo?.loadLabel(pm)?.toString() ?: packageInfo.packageName,
             versionName = packageInfo.versionName ?: "unknown",
-            versionCode = packageInfo.longVersionCode,
+            versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                packageInfo.longVersionCode
+            } else {
+                @Suppress("DEPRECATION")
+                packageInfo.versionCode.toLong()
+            },
             minSdk = appInfo?.minSdkVersion ?: 1,
             targetSdk = appInfo?.targetSdkVersion ?: 35,
             icon = appInfo?.loadIcon(pm),
