@@ -311,13 +311,14 @@ class VirtualWindowManager @Inject constructor() {
     fun setStatusBarLightAppearance(activity: Activity, lightStatusBar: Boolean) {
         runSafe(TAG) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val insetsController = activity.window.insetsController
-                if (lightStatusBar) {
-                    insetsController?.setSystemBarsAppearance(
-                        WindowInsets.Type.statusBars(),
-                        WindowInsets.Type.statusBars()
-                    )
-                }
+                activity.window.insetsController?.setSystemBarsAppearance(
+                    if (lightStatusBar) {
+                        android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                    } else {
+                        0
+                    },
+                    android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS
+                )
             } else {
                 @Suppress("DEPRECATION")
                 val flags = activity.window.decorView.systemUiVisibility
