@@ -97,7 +97,7 @@ If you're new to the codebase, read these files in order:
 
 ### Before You Start
 
-- Check the [Issues](https://github.com/TanvirHossain2/NEXTVM/issues) page for existing discussions
+- Check the [Issues](https://github.com/AdeelWajid/NEXTVM/issues) page for existing discussions
 - For large changes, open an issue first to discuss the approach
 - Make sure your change aligns with the project's goals (no-root virtualization)
 
@@ -213,6 +213,6 @@ When reporting a bug, include:
 
 ## Questions?
 
-If you have questions about the codebase or contribution process, open a [Discussion](https://github.com/TanvirHossain2/NEXTVM/discussions) on GitHub.
+If you have questions about the codebase or contribution process, open a [Discussion](https://github.com/AdeelWajid/NEXTVM/discussions) on GitHub.
 
 Thank you for contributing to NEXTVM!

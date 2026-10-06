@@ -216,7 +216,7 @@ NEXTVM/
 
 ```bash
 # Clone the repository
-git clone https://github.com/TanvirHossain2/NEXTVM.git
+git clone https://github.com/AdeelWajid/NEXTVM.git
 cd NEXTVM
 
 # Build debug APK
@@ -348,7 +348,7 @@ limitations under the License.
 <p align="center">
   <b>Built with determination from Bangladesh</b>
   <br><br>
-  <a href="https://github.com/TanvirHossain2/NEXTVM/stargazers">Star this repo</a> if you believe in the vision.
+  <a href="https://github.com/AdeelWajid/NEXTVM/stargazers">Star this repo</a> if you believe in the vision.
   <br>
   Let's build the most powerful Android virtual environment — together.
 </p>
