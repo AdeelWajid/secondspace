@@ -2,6 +2,7 @@ package com.nextvm.core.framework.parsing
 
 import android.content.pm.PackageInfo
 import android.graphics.drawable.Drawable
+import android.os.Build
 
 /**
  * Complete parsed package information — combines the lightweight ApkLiteInfo
@@ -56,7 +57,13 @@ data class FullPackageInfo(
 ) {
     val packageName: String get() = apkLite?.packageName ?: packageInfo.packageName ?: ""
     val versionName: String get() = packageInfo.versionName ?: "unknown"
-    val versionCode: Long get() = apkLite?.longVersionCode ?: packageInfo.longVersionCode
+    val versionCode: Long
+        get() = apkLite?.longVersionCode ?: if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageInfo.longVersionCode
+        } else {
+            @Suppress("DEPRECATION")
+            packageInfo.versionCode.toLong()
+        }
     val is64Bit: Boolean get() = nativeAbis.any { it.contains("64") }
 }
 

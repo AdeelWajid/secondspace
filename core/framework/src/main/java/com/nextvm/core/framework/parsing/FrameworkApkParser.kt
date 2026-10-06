@@ -225,7 +225,11 @@ class FrameworkApkParser @Inject constructor(
             path = apkPath,
             splitName = splitName,
             versionCode = pkgInfo.versionCode,
-            versionCodeMajor = (pkgInfo.longVersionCode shr 32).toInt(),
+            versionCodeMajor = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                (pkgInfo.longVersionCode shr 32).toInt()
+            } else {
+                0
+            },
             installLocation = pkgInfo.installLocation,
             minSdkVersion = appInfo?.minSdkVersion ?: 1,
             targetSdkVersion = appInfo?.targetSdkVersion ?: Build.VERSION.SDK_INT,
@@ -235,7 +239,11 @@ class FrameworkApkParser @Inject constructor(
             extractNativeLibs = appInfo?.let {
                 (it.flags and ApplicationInfo.FLAG_EXTRACT_NATIVE_LIBS) != 0
             } ?: true,
-            signingInfo = pkgInfo.signingInfo
+            signingInfo = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                pkgInfo.signingInfo
+            } else {
+                null
+            }
         )
 
         Timber.tag(TAG).d(

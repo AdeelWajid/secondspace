@@ -5,6 +5,7 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.ApplicationInfo
 import android.content.pm.ActivityInfo
+import android.os.Build
 import com.nextvm.core.model.GmsServiceRouter
 import com.nextvm.core.model.VirtualApp
 import com.nextvm.core.model.VirtualConstants
@@ -434,14 +435,22 @@ class PackageManagerProxy(
             // Extract signing certificates from APK so GMS/Firebase can verify
             // the app's identity (fingerprint hash, GoogleSignatureVerifier, etc.)
             try {
-                val archiveInfo = context.packageManager.getPackageArchiveInfo(
-                    app.apkPath,
-                    PackageManager.GET_SIGNING_CERTIFICATES
-                )
-                if (archiveInfo?.signingInfo != null) {
-                    info.signingInfo = archiveInfo.signingInfo
-                    Timber.tag(TAG).d("parseApkDirect: extracted signingInfo for $packageName")
+                val extractedModernSigning = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    val archiveInfo = context.packageManager.getPackageArchiveInfo(
+                        app.apkPath,
+                        PackageManager.GET_SIGNING_CERTIFICATES
+                    )
+                    if (archiveInfo?.signingInfo != null) {
+                        info.signingInfo = archiveInfo.signingInfo
+                        Timber.tag(TAG).d("parseApkDirect: extracted signingInfo for $packageName")
+                        true
+                    } else {
+                        false
+                    }
                 } else {
+                    false
+                }
+                if (!extractedModernSigning) {
                     // Fallback to deprecated GET_SIGNATURES for older signing schemes
                     @Suppress("DEPRECATION")
                     val archiveLegacy = context.packageManager.getPackageArchiveInfo(
