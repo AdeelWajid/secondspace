@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "NEXTVM"
+rootProject.name = "SecondSpace"
 
 // App module
 include(":app")

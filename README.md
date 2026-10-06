@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/nextvm-logo.png" alt="NEXTVM Logo" width="200" height="200" />
+  <img src="assets/nextvm-logo.png" alt="SecondSpace Logo" width="200" height="200" />
 </p>
 
 <p align="center">
@@ -11,8 +11,8 @@
   <img src="https://img.shields.io/badge/Status-Alpha-orange?style=for-the-badge" />
 </p>
 
-<h1 align="center">NEXTVM</h1>
-<h3 align="center">Next-Generation Android Virtual Environment Engine</h3>
+<h1 align="center">SecondSpace</h1>
+<h3 align="center">A second space for Android apps, built on the NEXTVM engine</h3>
 
 <p align="center">
   <strong>Run any Android app inside a fully isolated, sandboxed virtual environment — without root, without emulators, directly on your phone.</strong>
@@ -31,15 +31,15 @@
 
 ## Credit
 
-This copy is maintained by [Adeel Wajid](https://github.com/AdeelWajid).
+**SecondSpace** is maintained by [Adeel Wajid](https://github.com/AdeelWajid).
 
-NEXTVM was created by [Tanvir Hossain](https://github.com/TanvirHossain2). The original project lives at [github.com/TanvirHossain2/NEXTVM](https://github.com/TanvirHossain2/NEXTVM). Copyright 2024–2026 Tanvir Hossain, under the Apache License 2.0.
+It is based on **NEXTVM**, created by [Tanvir Hossain](https://github.com/TanvirHossain2). The original project lives at [github.com/TanvirHossain2/NEXTVM](https://github.com/TanvirHossain2/NEXTVM). Copyright 2024–2026 Tanvir Hossain, under the Apache License 2.0.
 
 ---
 
-## What is NEXTVM?
+## What is SecondSpace?
 
-NEXTVM is a **lightweight Android virtualization engine** that creates isolated virtual environments on Android devices. Unlike traditional emulators that simulate hardware, NEXTVM uses **Binder proxy interception** and **ActivityThread hooking** to run real Android apps in a sandboxed process — achieving near-native performance with complete isolation.
+SecondSpace is a **lightweight Android virtualization engine** that creates isolated virtual environments on Android devices. Unlike traditional emulators that simulate hardware, it uses **Binder proxy interception** and **ActivityThread hooking** to run real Android apps in a sandboxed process — achieving near-native performance with complete isolation.
 
 Think of it as a "parallel universe" for your Android apps — each app runs with its own identity, storage, accounts, and network configuration, completely isolated from the host device and from each other.
 
@@ -224,8 +224,8 @@ NEXTVM/
 
 ```bash
 # Clone the repository
-git clone https://github.com/AdeelWajid/wajid-nextvm.git
-cd wajid-nextvm
+git clone https://github.com/AdeelWajid/secondspace.git
+cd secondspace
 
 # Build debug APK
 ./gradlew :app:assembleDebug
@@ -356,7 +356,7 @@ limitations under the License.
 <p align="center">
   <b>Built with determination from Bangladesh</b>
   <br><br>
-  <a href="https://github.com/AdeelWajid/wajid-nextvm/stargazers">Star this repo</a> if you believe in the vision.
+  <a href="https://github.com/AdeelWajid/secondspace/stargazers">Star this repo</a> if you believe in the vision.
   <br>
   Let's build the most powerful Android virtual environment — together.
 </p>

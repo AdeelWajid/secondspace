@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">NEXTVM</string>
+    <string name="app_name">SecondSpace</string>
     <string name="title_launcher">Launcher</string>
     <string name="title_app_manager">App Manager</string>
     <string name="title_settings">Settings</string>
@@ -8,5 +8,5 @@
     <string name="no_apps_installed">No Virtual Apps</string>
     <string name="no_apps_description">Install an APK to get started.\nYour apps will appear here.</string>
     <string name="engine_running">Virtual environment is running</string>
-    <string name="engine_notification_channel">NEXTVM Engine</string>
+    <string name="engine_notification_channel">SecondSpace Engine</string>
 </resources>

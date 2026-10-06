@@ -1,6 +1,6 @@
-# Contributing to NEXTVM
+# Contributing to SecondSpace
 
-Thank you for your interest in contributing to NEXTVM! This project aims to build the most capable Android virtual environment engine, and every contribution matters.
+Thank you for your interest in contributing to SecondSpace! This project aims to build the most capable Android virtual environment engine, and every contribution matters. NEXTVM, the engine this project is based on, was created by [Tanvir Hossain](https://github.com/TanvirHossain2).
 
 ## Table of Contents
 
@@ -20,8 +20,8 @@ Thank you for your interest in contributing to NEXTVM! This project aims to buil
 1. **Fork** the repository on GitHub
 2. **Clone** your fork locally:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/NEXTVM.git
-   cd NEXTVM
+   git clone https://github.com/YOUR_USERNAME/secondspace.git
+   cd secondspace
    ```
 3. **Create a branch** for your changes:
    ```bash
@@ -97,7 +97,7 @@ If you're new to the codebase, read these files in order:
 
 ### Before You Start
 
-- Check the [Issues](https://github.com/AdeelWajid/wajid-nextvm/issues) page for existing discussions
+- Check the [Issues](https://github.com/AdeelWajid/secondspace/issues) page for existing discussions
 - For large changes, open an issue first to discuss the approach
 - Make sure your change aligns with the project's goals (no-root virtualization)
 
@@ -213,6 +213,6 @@ When reporting a bug, include:
 
 ## Questions?
 
-If you have questions about the codebase or contribution process, open a [Discussion](https://github.com/AdeelWajid/wajid-nextvm/discussions) on GitHub.
+If you have questions about the codebase or contribution process, open a [Discussion](https://github.com/AdeelWajid/secondspace/discussions) on GitHub.
 
-Thank you for contributing to NEXTVM!
+Thank you for contributing to SecondSpace!
