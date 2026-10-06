@@ -97,6 +97,7 @@ object AndroidCompat {
      * needing to call any hidden API itself.
      */
     private fun bypassViaLSPosed(): Boolean {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) return false
         return try {
             val result = HiddenApiBypass.addHiddenApiExemptions("")
             if (result) {
