@@ -28,6 +28,15 @@ jobs:
 
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          # The action's default package list still includes the removed "tools"
+          # package, which makes sdkmanager exit 1. Install only what this project needs.
+          packages: >-
+            platform-tools
+            platforms;android-35
+            build-tools;35.0.0
+            ndk;27.1.12297006
+            cmake;3.22.1
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
