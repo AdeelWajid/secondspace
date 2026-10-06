@@ -29,6 +29,14 @@
 
 ---
 
+## Credit
+
+This copy is maintained by [Adeel Wajid](https://github.com/AdeelWajid).
+
+NEXTVM was created by [Tanvir Hossain](https://github.com/TanvirHossain2). The original project lives at [github.com/TanvirHossain2/NEXTVM](https://github.com/TanvirHossain2/NEXTVM). Copyright 2024–2026 Tanvir Hossain, under the Apache License 2.0.
+
+---
+
 ## What is NEXTVM?
 
 NEXTVM is a **lightweight Android virtualization engine** that creates isolated virtual environments on Android devices. Unlike traditional emulators that simulate hardware, NEXTVM uses **Binder proxy interception** and **ActivityThread hooking** to run real Android apps in a sandboxed process — achieving near-native performance with complete isolation.
@@ -216,8 +224,8 @@ NEXTVM/
 
 ```bash
 # Clone the repository
-git clone https://github.com/AdeelWajid/NEXTVM.git
-cd NEXTVM
+git clone https://github.com/AdeelWajid/wajid-nextvm.git
+cd wajid-nextvm
 
 # Build debug APK
 ./gradlew :app:assembleDebug
@@ -348,7 +356,7 @@ limitations under the License.
 <p align="center">
   <b>Built with determination from Bangladesh</b>
   <br><br>
-  <a href="https://github.com/AdeelWajid/NEXTVM/stargazers">Star this repo</a> if you believe in the vision.
+  <a href="https://github.com/AdeelWajid/wajid-nextvm/stargazers">Star this repo</a> if you believe in the vision.
   <br>
   Let's build the most powerful Android virtual environment — together.
 </p>
