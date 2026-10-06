@@ -497,7 +497,7 @@ class VirtualWindowManager @Inject constructor() {
 
         // Limit toast queue to prevent memory leaks
         if (state.toastQueue.size >= MAX_TOAST_QUEUE) {
-            state.toastQueue.removeFirst()
+            state.toastQueue.removeAt(0)
         }
 
         state.toastQueue.add(ToastRecord(text, duration, instanceId))
