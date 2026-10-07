@@ -12,7 +12,8 @@ import javax.inject.Singleton
  * - Java method hooking via reflection (no native required)
  * - Proxy-based interception (InvocationHandler)
  *
- * Future: LSPlant (ART hooks), Dobby (inline hooks), bhook (PLT hooks)
+ * Java methods are hooked in-process with Pine (see EngineXposed).
+ * Native file hooks stay in NativeHookBridge.
  *
  * For Phase 1, we use pure Java/Kotlin reflection which doesn't require
  * native libraries. This works for:

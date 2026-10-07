@@ -187,6 +187,7 @@ class VirtualApplicationManager @Inject constructor() {
 
             // Step 6: Call Application.onCreate()
             callApplicationOnCreate(application)
+            com.nextvm.core.virtualization.ui.FloatingSpaceIconController.attachTo(application)
             record.state = ApplicationState.RUNNING
             Timber.tag(TAG).i("Application.onCreate() complete for $packageName")
 

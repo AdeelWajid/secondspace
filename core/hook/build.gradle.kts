@@ -44,4 +44,5 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)
+    implementation(libs.pine)
 }

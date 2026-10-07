@@ -3,6 +3,8 @@ package com.nextvm.app
 import android.app.Application
 import com.nextvm.core.model.VmResult
 import com.nextvm.core.virtualization.engine.VirtualEngine
+import com.nextvm.core.virtualization.ui.FloatingIconSettings
+import com.nextvm.core.virtualization.ui.FloatingSpaceIconController
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,8 +22,12 @@ class NextVmApplication : Application() {
     // Application-level coroutine scope
     private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.Default)
 
+    private val floatingSpaceIcon = FloatingSpaceIconController(this)
+
     override fun onCreate() {
         super.onCreate()
+        FloatingIconSettings.captureHostFilesDir(this)
+        registerActivityLifecycleCallbacks(floatingSpaceIcon)
 
         // 1. Initialize logging
         if (BuildConfig.DEBUG) {

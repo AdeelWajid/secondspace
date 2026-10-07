@@ -88,6 +88,24 @@ class NativeHookBridge @Inject constructor() {
                 false
             }
         }
+
+        fun applyGameSpeed(scale: Float, unity: Boolean, clock: Boolean, sleep: Boolean): Boolean {
+            if (!nativeLibLoaded) return false
+            return try {
+                nativeApplyGameSpeed(scale, unity, clock, sleep)
+            } catch (e: UnsatisfiedLinkError) {
+                Timber.tag(TAG).w("Game speed native method missing: ${e.message}")
+                false
+            }
+        }
+
+        @JvmStatic
+        private external fun nativeApplyGameSpeed(
+            scale: Float,
+            unity: Boolean,
+            clock: Boolean,
+            sleep: Boolean
+        ): Boolean
     }
 
     fun initialize() {
@@ -119,8 +137,8 @@ class NativeHookBridge @Inject constructor() {
                     Timber.tag(TAG).i("Runtime.nativeLoad JNI hook installed \u2014 null-caller protection active")
                     return
                 }
-            } catch (e: Exception) {
-                Timber.tag(TAG).w("Native Runtime.nativeLoad hook failed: ${e.message}")
+            } catch (t: Throwable) {
+                Timber.tag(TAG).w("Native Runtime.nativeLoad hook failed: ${t.message}")
             }
         }
         Timber.tag(TAG).w("Runtime.nativeLoad hook not available \u2014 CheckJNI may still abort on null caller")    }
@@ -632,7 +650,8 @@ class NativeHookBridge @Inject constructor() {
             "bhook",
             "xhook",
             "substrate",
-            "xposed"
+            "xposed",
+            "libpine"
         )
 
         return originalMaps.lines()

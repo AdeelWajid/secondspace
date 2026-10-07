@@ -3,6 +3,9 @@ package com.nextvm.feature.settings
 import android.accounts.AccountManager
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
+import com.nextvm.core.virtualization.ui.FloatingIconSettings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nextvm.core.model.EngineStatus
@@ -39,6 +42,7 @@ data class SettingsUiState(
     val installedAppCount: Int = 0,
     val fileIsolationEnabled: Boolean = true,
     val permissionFirewallEnabled: Boolean = false,
+    val floatingIconEnabled: Boolean = false,
     val verboseLogging: Boolean = false,
     val googleAccounts: List<GoogleAccountInfo> = emptyList()
 )
@@ -46,6 +50,7 @@ data class SettingsUiState(
 sealed class SettingsIntent {
     data object ToggleFileIsolation : SettingsIntent()
     data object TogglePermissionFirewall : SettingsIntent()
+    data object ToggleFloatingIcon : SettingsIntent()
     data object ToggleVerboseLogging : SettingsIntent()
     data object ClearAllData : SettingsIntent()
     data object Refresh : SettingsIntent()
@@ -57,6 +62,7 @@ sealed class SettingsIntent {
 sealed class SettingsEffect {
     data class ShowMessage(val message: String) : SettingsEffect()
     data class LaunchSignIn(val intent: Intent) : SettingsEffect()
+    data class LaunchOverlayPermission(val intent: Intent) : SettingsEffect()
 }
 
 // ============================================================
@@ -78,6 +84,7 @@ class SettingsViewModel @Inject constructor(
     val effects: SharedFlow<SettingsEffect> = _effects.asSharedFlow()
 
     private var pendingSignInId: String? = null
+    private var pendingFloatingIconEnable = false
 
     init {
         loadSettings()
@@ -88,6 +95,7 @@ class SettingsViewModel @Inject constructor(
         when (intent) {
             is SettingsIntent.ToggleFileIsolation -> toggleFileIsolation()
             is SettingsIntent.TogglePermissionFirewall -> togglePermissionFirewall()
+            is SettingsIntent.ToggleFloatingIcon -> toggleFloatingIcon()
             is SettingsIntent.ToggleVerboseLogging -> toggleVerboseLogging()
             is SettingsIntent.ClearAllData -> clearAllData()
             is SettingsIntent.Refresh -> loadSettings()
@@ -103,8 +111,16 @@ class SettingsViewModel @Inject constructor(
                 val apps = engine.getInstalledApps()
                 val status = engine.getEngineStatus()
 
+                if (pendingFloatingIconEnable && Settings.canDrawOverlays(appContext)) {
+                    pendingFloatingIconEnable = false
+                    FloatingIconSettings.setEnabled(appContext, true)
+                }
+                val floatingIcon = FloatingIconSettings.isEnabled(appContext) &&
+                    Settings.canDrawOverlays(appContext)
+
                 _uiState.update {
                     it.copy(
+                        floatingIconEnabled = floatingIcon,
                         engineStatus = when (status) {
                             EngineStatus.READY -> "Running"
                             EngineStatus.INITIALIZING -> "Initializing..."
@@ -142,6 +158,32 @@ class SettingsViewModel @Inject constructor(
                     else "Permission firewall disabled"
                 )
             )
+        }
+    }
+
+    private fun toggleFloatingIcon() {
+        viewModelScope.launch {
+            val turningOn = !_uiState.value.floatingIconEnabled
+            if (!turningOn) {
+                pendingFloatingIconEnable = false
+                FloatingIconSettings.setEnabled(appContext, false)
+                _uiState.update { it.copy(floatingIconEnabled = false) }
+                _effects.emit(SettingsEffect.ShowMessage("Floating icon hidden"))
+                return@launch
+            }
+            if (!Settings.canDrawOverlays(appContext)) {
+                pendingFloatingIconEnable = true
+                val intent = Intent(
+                    Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:${appContext.packageName}")
+                )
+                _effects.emit(SettingsEffect.LaunchOverlayPermission(intent))
+                _effects.emit(SettingsEffect.ShowMessage("Allow display over other apps, then return here"))
+                return@launch
+            }
+            FloatingIconSettings.setEnabled(appContext, true)
+            _uiState.update { it.copy(floatingIconEnabled = true) }
+            _effects.emit(SettingsEffect.ShowMessage("Floating icon will show on virtual apps"))
         }
     }
 

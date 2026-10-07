@@ -20,10 +20,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,6 +37,8 @@ fun SettingsScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val snackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val signInLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -45,7 +51,14 @@ fun SettingsScreen(
             when (effect) {
                 is SettingsEffect.ShowMessage -> snackbarHostState.showSnackbar(effect.message)
                 is SettingsEffect.LaunchSignIn -> signInLauncher.launch(effect.intent)
+                is SettingsEffect.LaunchOverlayPermission -> context.startActivity(effect.intent)
             }
+        }
+    }
+
+    LaunchedEffect(lifecycleOwner) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            viewModel.onIntent(SettingsIntent.Refresh)
         }
     }
 
@@ -135,6 +148,14 @@ fun SettingsScreen(
                     description = "Control guest app permissions individually",
                     checked = uiState.permissionFirewallEnabled,
                     onToggle = { viewModel.onIntent(SettingsIntent.TogglePermissionFirewall) }
+                )
+                SettingsDivider()
+                ToggleRow(
+                    icon = Icons.Default.Apps,
+                    title = "Floating icon",
+                    description = "Draggable icon on a virtual app. Tap it to change that app's speed.",
+                    checked = uiState.floatingIconEnabled,
+                    onToggle = { viewModel.onIntent(SettingsIntent.ToggleFloatingIcon) }
                 )
             }
 

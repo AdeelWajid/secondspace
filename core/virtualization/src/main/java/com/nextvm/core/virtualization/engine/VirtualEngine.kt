@@ -12,6 +12,7 @@ import com.nextvm.core.framework.parsing.FullPackageInfo
 import com.nextvm.core.hook.AntiDetectionEngine
 import com.nextvm.core.hook.IdentitySpoofingEngine
 import com.nextvm.core.hook.NativeHookBridge
+import com.nextvm.core.hook.xposed.EngineXposed
 import com.nextvm.core.model.*
 import com.nextvm.core.sandbox.NativeLibManager
 import com.nextvm.core.sandbox.SandboxManager
@@ -168,6 +169,7 @@ class VirtualEngine @Inject constructor(
 
             earlyHookInstalled = true
             Timber.tag(TAG).i("ATHook installed early (main thread) ✓")
+            EngineXposed.install()
         } catch (e: Exception) {
             Timber.tag(TAG).e(e, "Failed to install early ATHook — guest apps may show blank screen")
         }
@@ -588,6 +590,7 @@ class VirtualEngine @Inject constructor(
 
             // 10. Update app state
             updateAppState(instanceId) { it.copy(isRunning = true, lastLaunchedAt = System.currentTimeMillis()) }
+            setRunningMarker(instanceId, true)
 
             // 10.5: Drain any FCM messages that arrived while the app was offline.
             // These are queued by NextVmFcmService when the target instance wasn't running.
@@ -643,6 +646,7 @@ class VirtualEngine @Inject constructor(
             }
 
             updateAppState(instanceId) { it.copy(isRunning = false) }
+            setRunningMarker(instanceId, false)
             Timber.tag(TAG).i("Stopped app: $instanceId")
         }
         return VmResult.Success(Unit)
@@ -1051,6 +1055,17 @@ class VirtualEngine @Inject constructor(
         }
 
         return splits
+    }
+
+    private fun setRunningMarker(instanceId: String, running: Boolean) {
+        if (!::virtualRoot.isInitialized) return
+        val file = File(virtualRoot, "running/$instanceId")
+        if (running) {
+            file.parentFile?.mkdirs()
+            file.writeText("1")
+        } else {
+            file.delete()
+        }
     }
 
     private fun updateAppState(instanceId: String, transform: (VirtualApp) -> VirtualApp) {

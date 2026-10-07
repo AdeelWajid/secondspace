@@ -1388,6 +1388,24 @@ class NextVmInstrumentation(
         }
     }
 
+    override fun callActivityOnResume(activity: android.app.Activity) {
+        super.callActivityOnResume(activity)
+        try {
+            com.nextvm.core.virtualization.ui.FloatingSpaceIconController.onGuestResumed(activity)
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Floating icon resume failed")
+        }
+    }
+
+    override fun callActivityOnPause(activity: android.app.Activity) {
+        try {
+            com.nextvm.core.virtualization.ui.FloatingSpaceIconController.onGuestPaused(activity)
+        } catch (e: Exception) {
+            Timber.tag(TAG).w(e, "Floating icon pause failed")
+        }
+        super.callActivityOnPause(activity)
+    }
+
     // Delegate all other Instrumentation methods to base
     override fun newActivity(cl: ClassLoader?, className: String?, intent: Intent?): android.app.Activity {
         // CRITICAL FIX: The ClassLoader 'cl' passed by performLaunchActivity() may be the
